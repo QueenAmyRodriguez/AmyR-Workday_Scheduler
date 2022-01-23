@@ -5,11 +5,8 @@ var currentDay = document.querySelector("#currentDay");
 //store class name results in variable
 var hoursList = document.querySelectorAll(".hour");
 
-console.log(hoursList);
-
-
-
-var textArea = document.querySelector("textarea");
+var textArea = document.querySelectorAll("textarea");
+console.log(textArea);
 
 // creates a variable to store today's date
 var today = moment().format('dddd, MMMM Do, YYYY');
@@ -43,9 +40,40 @@ var businessHours = function () {
 businessHours();
 
 // when I click on the timeblock then i can enter an event 
+var dailyTasks = [];
+
+$(".time-block").on("click", ".description", function(){
+    var addTask = $(this).text().trim();
+    console.log(addTask);
+
+    var textInput = $("textarea")
+    .addClass("description")
+    .val(addTask);
+});
+
+// when i click the save button the tasks are saved
+
+var saveTasks = $('.time-block').on('click', '.saveBtn', function(){
+    localStorage.setItem("dailyTasks", JSON.stringify(dailyTasks));
+});
 
 
+// when i refresh the page the tasks are displayed
+var loadTasks = function() {
+    var savedTasks = localStorage.getItem("dailyTasks");
 
+  if (!savedTasks) {
+    return false;
+  }
+
+  savedTasks = JSON.parse(savedTasks);
+
+    // loop through savedTasks array
+    for (var i = 0; i < savedTasks.length; i++) {
+        // pass each task object into the `createTaskEl()` function
+        createTaskEl(savedTasks[i]);
+    }
+}
 
 
 
